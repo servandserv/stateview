@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema elementFormDefault="qualified"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="urn:com:servandserv:data:stateview"
+	targetNamespace="urn:com:servandserv:data:stateview">
+
+<xsd:element name="Error">
+    <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element name="description" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Readable error description.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Errors">
+    <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element ref="Error" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:element>
+
+</xsd:schema>
