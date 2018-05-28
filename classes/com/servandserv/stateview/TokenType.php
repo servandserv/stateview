@@ -42,7 +42,7 @@
 			$this->query = $val;
 			return $this;
 		}
-		public function setRequest ( DataDaptor $val = NULL ) {
+		public function setRequest ( DataAdaptor $val = NULL ) {
 			$this->request = $val;
 			return $this;
 		}
