@@ -105,8 +105,8 @@ class ViewFactory implements Router
             $this->referrer->setRequest( $request );
             $this->referrer->setResponse( $response );
             $this->rep->registerToken( $this->referrer );
-            if( method_exists( $this->referrer, "redirect" ) ) {
-                return $this->referrer->redirect( $request, $response );
+            if( method_exists( $this->referrer, "onCallback" ) ) {
+                return $this->referrer->onCallback( $request, $response );
             }
         }
         return FALSE;
