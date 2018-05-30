@@ -9,4 +9,7 @@ interface StateRepository
     public function findToken( $id );
     public function delToken( $id );
     public function emptyTrash();
+    public function setState( $url, Param $param );
+    public function getState( $url );
+    public function cleanState( $url = null );
 }

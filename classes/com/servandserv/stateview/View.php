@@ -13,6 +13,7 @@
 
 		protected $sessionId = null;
 		protected $env = null;
+		protected $state = null;
 		protected $token = null;
 		protected $referrer = null;
 		protected $callback = null;
@@ -33,24 +34,33 @@
 			$this->env = $val;
 			return $this;
 		}
+		public function setState ( State $val ) 
+		{
+			$this->state = $val;
+			return $this;
+		}
 		public function setToken ( TokenType $val ) 
 		{
 			$this->token = $val;
 			return $this;
 		}
-		public function setReferrer ( TokenType $val = NULL ) {
+		public function setReferrer ( TokenType $val = NULL ) 
+		{
 			$this->referrer = $val;
 			return $this;
 		}
-		public function setCallback ( TokenType $val = NULL ) {
+		public function setCallback ( TokenType $val = NULL ) 
+		{
 			$this->callback = $val;
 			return $this;
 		}
-		public function setErrors (  Errors $val ) {
+		public function setErrors (  Errors $val ) 
+		{
 			$this->errors = $val;
 			return $this;
 		}
-		public function setError( Error $err ) {
+		public function setError( Error $err ) 
+		{
 		    $this->errors->setError( $err );
 		    return $this;
 		}
@@ -67,6 +77,10 @@
 		public function getEnv() 
 		{
 			return $this->env;
+		}
+		public function getState() 
+		{
+			return $this->state;
 		}
 		public function getToken() 
 		{
@@ -108,6 +122,7 @@
 		    $xw->startElementNS( NULL, $xmlname, $xmlns );
 		    if( $this->getSessionId() ) $xw->writeElement( "sessionId", $this->getSessionId() );
 		    if( $this->getEnv() ) $this->getEnv()->toXmlWriter( $xw );
+		    if( $this->getState() ) $this->getState()->toXmlWriter( $xw );
 		    if( $this->getToken() ) $this->getToken()->toXmlWriter( $xw, "Token" );
 		    if( $this->getReferrer() ) $this->getReferrer()->toXmlWriter( $xw, "Referrer" );
 		    if( $this->getCallback() ) $this->getCallback()->toXmlWriter( $xw, "Callback" );

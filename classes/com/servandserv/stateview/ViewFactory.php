@@ -20,7 +20,7 @@ class ViewFactory implements Router
     private $token;
     private $env;
 
-    public function __construct( StateRepository $rep, array $params = [] )
+    public function __construct( StateRepository $rep, array $env = [] )
     {
         $this->rep = $rep;
         $this->referrerId = filter_input( INPUT_GET, "__referrer__" );
@@ -28,9 +28,10 @@ class ViewFactory implements Router
         $this->callbackId = filter_input( INPUT_GET, "__callback__" );
         $this->callback = $rep->findToken( $this->callbackId );
         $this->env = new Env();
-        foreach( $params as $k => $v ) {
+        foreach( $env as $k => $v ) {
             $this->env->setParam( new Param( $k, $v ) );
         }
+        
     }
 
     public function getReferrer()
@@ -55,6 +56,9 @@ class ViewFactory implements Router
         foreach( $_GET as $k => $v ) {
             $query->setParam( new Param( $k, $v ) );
         }
+        foreach( $state as $k=>$v ) {
+            $this->rep->setState( $query->getUrl(), new Param( $k, $v ) );
+        }
         $token->setId( self::createTokenId( $sn ) )
             ->setQuery( $query );
         try {
@@ -64,11 +68,14 @@ class ViewFactory implements Router
                 ->setToken( $token )
                 ->setCallback( $this->callback )
                 ->setReferrer( $this->referrer )
-                ->setEnv( $this->env );
+                ->setEnv( $this->env )
+                ->setState( $this->rep->getState( $query->getUrl() ) );
         } catch( \Exception $e ) {
             $view = ( new View() )
                 ->setSessionId( $this->rep->getStateId() )
-                ->setError( ( new Error )->setDescription( "Access denied" ) );
+                ->setError( ( new Error )->setDescription( "Access denied" ) )
+                ->setEnv( $this->env )
+                ->setState( $this->rep->getState() );
         }
         
         if( $cb !== NULL ) $cb( $view );
